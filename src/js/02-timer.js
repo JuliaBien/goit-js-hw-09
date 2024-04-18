@@ -1,5 +1,6 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 function convertMs(ms) {
   const second = 1000;
   const minute = second * 60;
@@ -31,7 +32,7 @@ const options = {
     chosenData = selectedDates[0];
     const now = new Date();
     if (chosenData <= now) {
-      window.alert('Please choose a date in the future');
+      Notify.failure('Please choose a date in the future');
       startButton.setAttribute('disabled', '');
     } else {
       startButton.removeAttribute('disabled');
@@ -41,18 +42,22 @@ const options = {
 startButton.setAttribute('disabled', '');
 flatpickr(timePicker, options);
 const timeCounting = () => {
-  setInterval(() => {
+  let interval = null;
+  interval = setInterval(() => {
     const addLeadingZero = value => {
-      value.padStart(2, '0');
+      return value.toString().padStart(2, '0');
     };
     const timeNow = new Date();
     const timeChosen = new Date(chosenData);
     const timeLeft = timeChosen.getTime() - timeNow.getTime();
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+    }
     const timeLeftObject = convertMs(timeLeft);
-    remainingDays.innerText = timeLeftObject.days;
-    remainingHours.innerText = timeLeftObject.hours;
-    remainingMinutes.innerText = timeLeftObject.minutes;
-    remainingSeconds.innerText = timeLeftObject.seconds;
+    remainingDays.innerText = addLeadingZero(timeLeftObject.days);
+    remainingHours.innerText = addLeadingZero(timeLeftObject.hours);
+    remainingMinutes.innerText = addLeadingZero(timeLeftObject.minutes);
+    remainingSeconds.innerText = addLeadingZero(timeLeftObject.seconds);
   }, 1000);
 };
 startButton.addEventListener('click', timeCounting);
