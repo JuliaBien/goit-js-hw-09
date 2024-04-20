@@ -1,25 +1,35 @@
 import Notiflix from 'notiflix';
 function createPromise(position, delay) {
-  const shouldResolve = Math.random() > 0.3;
   return new Promise((resolve, reject) => {
+    const shouldResolve = Math.random() > 0.3;
     setTimeout(() => {
       if (shouldResolve) {
+        resolve({ position, delay });
       } else {
+        reject({ position, delay });
       }
-    }, inputStep);
+    }, delay);
   });
 }
-const submitButton = document.querySelector('button');
 const form = document.querySelector('form.form');
-const inputDelay = form.elements.delay.value;
-const inputStep = form.elements.step.value;
-const inputAmount = form.elements.amount.value;
+const inputDelay = Number(form.elements.delay.value);
+const inputStep = Number(form.elements.step.value);
+const inputAmount = Number(form.elements.amount.valu);
 
-const startCreating = () => {
-  setTimeout(() => {
-    for (let i = 0; i <= inputAmount; i++) {
-      createPromise();
-    }
-  }, inputDelay);
+const startCreating = event => {
+  event.preventDefault();
+  for (let i = 0; i <= inputAmount; i++) {
+    createPromise(i, inputDelay)
+      .then(({ position, delay }) => {
+        Notiflix.Notify.success(
+          'Fullfiled promise ${position} in ${delay} seconds'
+        );
+      })
+      .catch(({ position, delay }) => {
+        Notiflix.Notify.failure(
+          'Rejected promise ${position} in ${delay} seconds'
+        );
+      });
+  }
 };
-submitButton.addEventListener('click', startCreating);
+form.addEventListener('submit', startCreating);
