@@ -52,6 +52,7 @@ const timeCounting = () => {
     const timeLeft = timeChosen.getTime() - timeNow.getTime();
     if (timeLeft <= 0) {
       clearInterval(interval);
+      return;
     }
     const timeLeftObject = convertMs(timeLeft);
     remainingDays.innerText = addLeadingZero(timeLeftObject.days);
