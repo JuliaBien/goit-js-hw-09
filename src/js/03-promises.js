@@ -6,20 +6,20 @@ function createPromise(position, delay) {
       if (shouldResolve) {
       } else {
       }
-    }, step);
+    }, inputStep);
   });
 }
 const submitButton = document.querySelector('button');
 const form = document.querySelector('form.form');
-const delay = form.elements.delay.value;
-const step = form.elements.step.value;
-const amount = form.elements.amount.value;
+const inputDelay = form.elements.delay.value;
+const inputStep = form.elements.step.value;
+const inputAmount = form.elements.amount.value;
 
 const startCreating = () => {
   setTimeout(() => {
-    for (let i = 0; i <= amount; i++) {
+    for (let i = 0; i <= inputAmount; i++) {
       createPromise();
     }
-  }, delay);
+  }, inputDelay);
 };
 submitButton.addEventListener('click', startCreating);
