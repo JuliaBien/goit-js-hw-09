@@ -15,19 +15,20 @@ const form = document.querySelector('form.form');
 
 const startCreating = event => {
   event.preventDefault();
-  const inputDelay = Number(form.elements.delay.value);
+  const form = event.target;
+  let inputDelay = Number(form.elements.delay.value);
   const inputStep = Number(form.elements.step.value);
-  const inputAmount = Number(form.elements.amount.valu);
+  const inputAmount = Number(form.elements.amount.value);
   for (let i = 0; i <= inputAmount; i++) {
     createPromise(i, inputDelay)
       .then(({ position, delay }) => {
         Notiflix.Notify.success(
-          'Fullfiled promise ${position} in ${delay} seconds'
+          `Fullfiled promise ${position} in ${delay} seconds`
         );
       })
       .catch(({ position, delay }) => {
         Notiflix.Notify.failure(
-          'Rejected promise ${position} in ${delay} seconds'
+          `Rejected promise ${position} in ${delay} seconds`
         );
       });
     inputDelay += inputStep;
