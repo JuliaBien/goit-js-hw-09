@@ -12,12 +12,12 @@ function createPromise(position, delay) {
   });
 }
 const form = document.querySelector('form.form');
-const inputDelay = Number(form.elements.delay.value);
-const inputStep = Number(form.elements.step.value);
-const inputAmount = Number(form.elements.amount.valu);
 
 const startCreating = event => {
   event.preventDefault();
+  const inputDelay = Number(form.elements.delay.value);
+  const inputStep = Number(form.elements.step.value);
+  const inputAmount = Number(form.elements.amount.valu);
   for (let i = 0; i <= inputAmount; i++) {
     createPromise(i, inputDelay)
       .then(({ position, delay }) => {
@@ -30,6 +30,7 @@ const startCreating = event => {
           'Rejected promise ${position} in ${delay} seconds'
         );
       });
+    inputDelay += inputStep;
   }
 };
 form.addEventListener('submit', startCreating);
